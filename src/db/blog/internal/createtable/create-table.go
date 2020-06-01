@@ -24,7 +24,7 @@ func SetTimeZone(db *sql.DB) error {
 	return nil
 }
 
-func CreatePsqlTableYoblog(db *sql.DB) (*sql.Rows, error) {
+func CreatePsqlTableBlog(db *sql.DB) (*sql.Rows, error) {
 
 	createType := `CREATE TYPE body_component AS (
 		title TEXT NOT NULL,

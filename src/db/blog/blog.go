@@ -1,14 +1,16 @@
-package yoblog
+package blog
 
 import (
-	"github.com/NavenduDuari/go-echo-blog/src/db/internal/store"
-	"github.com/NavenduDuari/go-echo-blog/src/db/model"
+	"log"
+
+	"github.com/NavenduDuari/go-echo-blog/src/db/blog/internal/store"
+	"github.com/NavenduDuari/go-echo-blog/src/db/blog/model"
 )
 
 func InsertBlog(newBlog *model.Blog) error {
 	db, err := store.GetPostgressDB()
 	if err != nil {
-		yolog.ErrorAndExit("GetPostgressDB failed", err)
+		log.Fatal("GetPostgressDB failed", err)
 	}
 	err = store.InsertBlog(db, newBlog)
 	if err != nil {
@@ -20,7 +22,7 @@ func InsertBlog(newBlog *model.Blog) error {
 func FetchBlogs() ([]model.Blog, error) {
 	db, err := store.GetPostgressDB()
 	if err != nil {
-		yolog.ErrorAndExit("GetPostgressDB failed", err)
+		log.Fatal("GetPostgressDB failed", err)
 	}
 	ads, err := store.FetchBlogs(db)
 	if err != nil {
@@ -32,7 +34,7 @@ func FetchBlogs() ([]model.Blog, error) {
 func DeleteBlog(id string) error {
 	db, err := store.GetPostgressDB()
 	if err != nil {
-		yolog.ErrorAndExit("GetPostgressDB failed", err)
+		log.Fatal("GetPostgressDB failed", err)
 	}
 	err = store.DeleteBlog(db, id)
 	if err != nil {
@@ -40,3 +42,14 @@ func DeleteBlog(id string) error {
 	}
 	return nil
 }
+
+// func UpdateBlog(id string, updatedBlog model.Blog) error {
+// 	db, err := store.GetPostgressDB()
+// 	if err != nil {
+// 		log.Fatal("GetPostgressDB failed", err)
+// 	}
+// 	err = store.UpdateBlog(db, id, updatedBlog)
+// 	if err != nil {
+// 		return err
+// 	}
+// }

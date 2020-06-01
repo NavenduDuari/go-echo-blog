@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/constant"
-	"github.com/NavenduDuari/go-echo-blog/src/db/model"
+	"github.com/NavenduDuari/go-echo-blog/src/db/blog/model"
 	"github.com/lib/pq"
 )
 
@@ -59,3 +59,13 @@ func DeleteBlog(db *sql.DB, id string) error {
 	}
 	return nil
 }
+
+// func UpdateBlog(db *sql.DB, id string, updatedBlog model.Blog) error {
+// 	_, err := db.Exec("UPDATE "+constant.PostgressTableBlog+
+// 		" SET title = $1 WHERE id = $2",
+// 		updatedBlog.Title, id)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
