@@ -29,9 +29,9 @@ func Login(c echo.Context) error {
 			Email: userData.Email,
 		})
 		if err != nil {
-			return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
+			return echo.NewHTTPError(http.StatusForbidden, "Failed Login")
 		}
-		return c.JSON(http.StatusCreated, map[string]string{
+		return c.JSON(http.StatusOK, map[string]string{
 			"message": "Login successful!",
 			"token":   token,
 		})

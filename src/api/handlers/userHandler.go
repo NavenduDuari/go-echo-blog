@@ -18,10 +18,10 @@ func AddUser(c echo.Context) error {
 	fmt.Println(newUser)
 	if err := user.InsertUser(newUser); err != nil {
 		fmt.Println(err)
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed SignUp")
+		return echo.NewHTTPError(http.StatusForbidden, "Failed SignUp")
 	}
 
-	return c.JSON(http.StatusCreated, "SignUp successful")
+	return c.JSON(http.StatusOK, "SignUp successful")
 }
 
 func EditUser(c echo.Context) error {
