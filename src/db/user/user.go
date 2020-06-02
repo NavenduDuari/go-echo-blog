@@ -19,14 +19,17 @@ func InsertUser(newUser *model.User) error {
 	return nil
 }
 
-func FetchUserById(id string) (model.User, error) {
+func FetchUserByUserId(userId string) (model.User, error) {
 	db, err := store.GetPostgressDB()
 	if err != nil {
 		log.Fatal("GetPostgressDB failed", err)
 	}
-	user, err := store.FetchUserById(db, id)
+	user, err := store.FetchUserByPhone(db, userId)
 	if err != nil {
-		return model.User{}, err
+		user, err = store.FetchUserByEmail(db, userId)
+		if err != nil {
+			return model.User{}, err
+		}
 	}
 	return user, nil
 }

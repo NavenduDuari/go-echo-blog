@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/NavenduDuari/go-echo-blog/src/api"
+	"github.com/NavenduDuari/go-echo-blog/src/api/middlewares"
 	"github.com/labstack/echo"
 )
 
@@ -10,7 +11,10 @@ func New() *echo.Echo {
 
 	// router groups
 	publicGroup := e.Group("/public")
-	protectedGroup := e.Group("/private")
+	protectedGroup := e.Group("/protected")
+
+	// set middlewares
+	middlewares.SetJwtMiddlewares(protectedGroup)
 
 	// set group routes
 	api.PublicGroup(publicGroup)

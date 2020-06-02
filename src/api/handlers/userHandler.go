@@ -17,6 +17,7 @@ func AddUser(c echo.Context) error {
 	}
 	fmt.Println(newUser)
 	if err := user.InsertUser(newUser); err != nil {
+		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed SignUp")
 	}
 

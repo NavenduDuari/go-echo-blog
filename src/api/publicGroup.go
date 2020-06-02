@@ -8,4 +8,6 @@ import (
 func PublicGroup(e *echo.Group) {
 	e.GET("/login", handlers.Login)
 	e.POST("/signup", handlers.AddUser)
+	e.GET("/blogs", handlers.GetBlogs)
+	e.GET("/blog", handlers.GetBlogById)
 }
