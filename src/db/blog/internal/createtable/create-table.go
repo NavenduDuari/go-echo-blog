@@ -26,25 +26,34 @@ func SetTimeZone(db *sql.DB) error {
 
 func CreatePsqlTableBlog(db *sql.DB) (*sql.Rows, error) {
 
-	createType := `CREATE TYPE "body_component" AS (
-		title TEXT,
-		content TEXT,
-		images TEXT[]
-		);`
-	rows, err := db.Query(createType)
-	if err != nil {
-		return nil, err
-	}
+	// createType := `CREATE TYPE "body_component" AS (
+	// 	title TEXT,
+	// 	content TEXT,
+	// 	images TEXT[]
+	// 	);`
+	// rows, err := db.Query(createType)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// createTable := "CREATE TABLE IF NOT EXISTS \"" + constant.PostgressTableBlog + "\" (" +
+	// 	`id UUID NOT NULL DEFAULT uuid_generate_v1(),
+	// 	title TEXT NOT NULL,
+	// 	body "body_component",
+	// 	author TEXT NOT NULL,
+	// 	timestamp TIMESTAMPTZ,
+	// 	categories TEXT[],
+	// 	tags TEXT[]
+	// 	);`
 	createTable := "CREATE TABLE IF NOT EXISTS \"" + constant.PostgressTableBlog + "\" (" +
 		`id UUID NOT NULL DEFAULT uuid_generate_v1(),
 		title TEXT NOT NULL,
-		body "body_component",
+		body TEXT NOT NULL,
 		author TEXT NOT NULL,
 		timestamp TIMESTAMPTZ,
 		categories TEXT[],
 		tags TEXT[]
 		);`
-	rows, err = db.Query(createTable)
+	rows, err := db.Query(createTable)
 	if err != nil {
 		return nil, err
 	}

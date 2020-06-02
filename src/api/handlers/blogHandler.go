@@ -11,8 +11,16 @@ import (
 )
 
 func GetBlogs(c echo.Context) error {
-	fmt.Println("get blog")
-	return errors.New("")
+	blogs, err := blog.FetchBlogs()
+	if err != nil {
+		fmt.Println(err)
+		return echo.NewHTTPError(http.StatusForbidden, "Blog FETCH Failed")
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Blogs FETCH successful!",
+		"blogs":   blogs,
+	})
 }
 
 func GetBlogById(c echo.Context) error {
@@ -24,13 +32,13 @@ func PostBlog(c echo.Context) error {
 	if err := c.Bind(newBlog); err != nil {
 		return err
 	}
-	fmt.Println(newBlog)
+
 	if err := blog.InsertBlog(newBlog); err != nil {
 		fmt.Println(err)
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Blog POST Failed")
+		return echo.NewHTTPError(http.StatusForbidden, "Blog POST Failed")
 	}
 
-	return c.JSON(http.StatusCreated, "Blog POST successful")
+	return c.JSON(http.StatusOK, "Blog POST successful")
 }
 
 func EditBlog(c echo.Context) error {
@@ -38,5 +46,12 @@ func EditBlog(c echo.Context) error {
 }
 
 func DeleteBlog(c echo.Context) error {
-	return errors.New("")
+	id := c.Param("id")
+
+	if err := blog.DeleteBlog(id); err != nil {
+		fmt.Println(err)
+		return echo.NewHTTPError(http.StatusForbidden, "Blog DELETE Failed")
+	}
+
+	return c.JSON(http.StatusOK, "Blog DELETE successful")
 }

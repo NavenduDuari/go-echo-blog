@@ -2,6 +2,7 @@ package store
 
 import (
 	"database/sql"
+	"time"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/constant"
 	"github.com/NavenduDuari/go-echo-blog/src/db/blog/model"
@@ -9,12 +10,23 @@ import (
 )
 
 func InsertBlog(db *sql.DB, newBlog *model.Blog) error {
-	_, err := db.Exec("INSERT INTO "+constant.PostgressTableBlog+
-		" ( title, body, author, timestamp, categories, tags) VALUES($1, ROW($2, $3, $4), $5, $6, $7, $8)",
+	// _, err := db.Exec("INSERT INTO \""+constant.PostgressTableBlog+
+	// 	"\" ( title, body, author, timestamp, categories, tags) VALUES($1, ROW($2, $3, $4)::body_component, $5, $6, $7, $8)",
+	// 	newBlog.Title,
+	// 	newBlog.Body.Title,
+	// 	newBlog.Body.Content,
+	// 	pq.Array(newBlog.Body.Images),
+	// 	newBlog.Author,
+	// 	time.Now(),
+	// 	pq.Array(newBlog.Categories),
+	// 	pq.Array(newBlog.Tags))
+
+	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableBlog+
+		"\" ( title, body, author, timestamp, categories, tags) VALUES($1, $2, $3, $4, $5, $6)",
 		newBlog.Title,
 		newBlog.Body,
 		newBlog.Author,
-		newBlog.Timestamp,
+		time.Now(),
 		pq.Array(newBlog.Categories),
 		pq.Array(newBlog.Tags))
 
@@ -27,7 +39,7 @@ func InsertBlog(db *sql.DB, newBlog *model.Blog) error {
 func FetchBlogs(db *sql.DB) ([]model.Blog, error) {
 	var blogs []model.Blog
 
-	rows, err := db.Query("Select * from " + constant.PostgressTableBlog)
+	rows, err := db.Query("Select * from \"" + constant.PostgressTableBlog + "\"")
 	if err != nil || rows == nil {
 		return nil, err
 	}
@@ -39,6 +51,7 @@ func FetchBlogs(db *sql.DB) ([]model.Blog, error) {
 
 		err := rows.Scan(&blog.Id,
 			&blog.Title,
+			// (&blog.Body.Title, &blog.Body.Content, pq.Array(&blog.Body.Images)::model.BodyComponent,
 			&blog.Body,
 			&blog.Author,
 			&blog.Timestamp,
@@ -53,7 +66,7 @@ func FetchBlogs(db *sql.DB) ([]model.Blog, error) {
 }
 
 func DeleteBlog(db *sql.DB, id string) error {
-	_, err := db.Exec("DELETE from "+constant.PostgressTableBlog+" WHERE id = $1", id)
+	_, err := db.Exec("DELETE from \""+constant.PostgressTableBlog+"\" WHERE id = $1", id)
 	if err != nil {
 		return err
 	}

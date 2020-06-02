@@ -8,5 +8,5 @@ import (
 func ProtectedGroup(e *echo.Group) {
 	e.POST("/blogs", handlers.PostBlog)
 	e.PUT("/blogs", handlers.EditBlog)
-	e.DELETE("/blogs", handlers.DeleteBlog)
+	e.DELETE("/blogs/:id", handlers.DeleteBlog)
 }
