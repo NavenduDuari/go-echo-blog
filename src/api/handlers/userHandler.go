@@ -10,15 +10,14 @@ import (
 	"github.com/labstack/echo"
 )
 
-func AddUser(c echo.Context) error {
+func SignUp(c echo.Context) error {
 	newUser := new(userModel.User)
 	if err := c.Bind(newUser); err != nil {
 		return err
 	}
-	fmt.Println(newUser)
 	if err := user.InsertUser(newUser); err != nil {
 		fmt.Println(err)
-		return echo.NewHTTPError(http.StatusForbidden, "Failed SignUp")
+		return echo.NewHTTPError(http.StatusForbidden, "SignUp Faild")
 	}
 
 	return c.JSON(http.StatusOK, "SignUp successful")

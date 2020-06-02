@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/NavenduDuari/go-echo-blog/src/api/model"
 	"github.com/NavenduDuari/go-echo-blog/src/db/blog"
 	blogModel "github.com/NavenduDuari/go-echo-blog/src/db/blog/model"
 	"github.com/labstack/echo"
@@ -42,7 +43,17 @@ func PostBlog(c echo.Context) error {
 }
 
 func EditBlog(c echo.Context) error {
-	return errors.New("")
+	inputForBlogUpdate := new(model.InputForBlogUpdate)
+	if err := c.Bind(inputForBlogUpdate); err != nil {
+		return err
+	}
+
+	if err := blog.UpdateBlog(inputForBlogUpdate.Id, inputForBlogUpdate.Blog); err != nil {
+		fmt.Println(err)
+		return echo.NewHTTPError(http.StatusForbidden, "Blog UPDATE Failed")
+	}
+
+	return c.JSON(http.StatusOK, "Blog UPDATE successful")
 }
 
 func DeleteBlog(c echo.Context) error {

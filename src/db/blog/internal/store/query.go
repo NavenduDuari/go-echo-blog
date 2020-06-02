@@ -73,12 +73,18 @@ func DeleteBlog(db *sql.DB, id string) error {
 	return nil
 }
 
-// func UpdateBlog(db *sql.DB, id string, updatedBlog model.Blog) error {
-// 	_, err := db.Exec("UPDATE "+constant.PostgressTableBlog+
-// 		" SET title = $1 WHERE id = $2",
-// 		updatedBlog.Title, id)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+func UpdateBlog(db *sql.DB, id string, updatedBlog model.Blog) error {
+	_, err := db.Exec("UPDATE \""+constant.PostgressTableBlog+
+		"\" SET title = $1, body = $2, author = $3, timestamp = $4, categories = $5, tags = $6 WHERE id = $7",
+		updatedBlog.Title,
+		updatedBlog.Body,
+		updatedBlog.Author,
+		time.Now(),
+		pq.Array(updatedBlog.Categories),
+		pq.Array(updatedBlog.Tags),
+		id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

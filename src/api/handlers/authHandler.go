@@ -15,7 +15,6 @@ func Login(c echo.Context) error {
 	if err := c.Bind(userForLogin); err != nil {
 		return err
 	}
-	fmt.Println(userForLogin)
 	userData, err := user.FetchUserByUserId(userForLogin.UserId)
 	if err != nil {
 		fmt.Println(err)

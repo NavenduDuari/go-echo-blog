@@ -43,13 +43,14 @@ func DeleteBlog(id string) error {
 	return nil
 }
 
-// func UpdateBlog(id string, updatedBlog model.Blog) error {
-// 	db, err := store.GetPostgressDB()
-// 	if err != nil {
-// 		log.Fatal("GetPostgressDB failed", err)
-// 	}
-// 	err = store.UpdateBlog(db, id, updatedBlog)
-// 	if err != nil {
-// 		return err
-// 	}
-// }
+func UpdateBlog(id string, updatedBlog model.Blog) error {
+	db, err := store.GetPostgressDB()
+	if err != nil {
+		log.Fatal("GetPostgressDB failed", err)
+	}
+	err = store.UpdateBlog(db, id, updatedBlog)
+	if err != nil {
+		return err
+	}
+	return nil
+}
