@@ -4,39 +4,38 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/NavenduDuari/go-echo-blog/src/api/model"
+	"github.com/NavenduDuari/go-echo-blog/src/common/utils"
+	"github.com/NavenduDuari/go-echo-blog/src/db/user"
+	userModel "github.com/NavenduDuari/go-echo-blog/src/db/user/model"
 	"github.com/labstack/echo"
 )
 
 func Login(c echo.Context) error {
-	fmt.Println(c)
-	// username := c.QueryParam("username")
-	// password := c.QueryParam("password")
+	userForLogin := new(userModel.User)
+	if err := c.Bind(userForLogin); err != nil {
+		return err
+	}
+	fmt.Println(userForLogin)
+	userData, err := user.FetchUserById(userForLogin.Id)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
+	}
 
-	// // check username and password against DB after hashing the password
-	// if username == "jack" && password == "1234" {
-	// 	cookie := &http.Cookie{}
+	if userData.Password == userForLogin.Password {
+		token, err := utils.GetJwtLoginToken(model.UserJWT{
+			Id:    userData.Id,
+			Phone: userData.Phone,
+			Email: userData.Email,
+		})
+		if err != nil {
+			return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
+		}
+		return c.JSON(http.StatusCreated, map[string]string{
+			"message": "Login successful!",
+			"token":   token,
+		})
+	}
 
-	// 	// this is the same
-	// 	//cookie := new(http.Cookie)
-
-	// 	cookie.Name = "sessionID"
-	// 	cookie.Value = "some_string"
-	// 	cookie.Expires = time.Now().Add(48 * time.Hour)
-
-	// 	c.SetCookie(cookie)
-
-	// 	// create jwt token
-	// 	token, err := utils.GetJwtLoginToken(model.UserJWT{})
-	// 	if err != nil {
-	// 		log.Println("Error Creating JWT token", err)
-	// 		return c.String(http.StatusInternalServerError, "something went wrong")
-	// 	}
-
-	// 	return c.JSON(http.StatusOK, map[string]string{
-	// 		"message": "You were logged in!",
-	// 		"token":   token,
-	// 	})
-	// }
-
-	return c.String(http.StatusUnauthorized, "Your username or password were wrong")
+	return c.String(http.StatusUnauthorized, "Login failed! Password didn't match")
 }
