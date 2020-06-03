@@ -1,4 +1,33 @@
 ## RUN:
+* Set Environment Variables
+```
+export PGSQL_BLOG_USER="postgres"
+export PGSQL_BLOG_PASSWORD="postgres"
+export PGSQL_BLOG_HOST="localhost"
+export PGSQL_BLOG_PORT="5432"
+
+export PGSQL_USER_USER="postgres"
+export PGSQL_USER_PASSWORD="postgres"
+export PGSQL_USER_HOST="localhost"
+export PGSQL_USER_PORT="5432"
+```
+* Create DB using psql command:
+```
+CREATE DATABASE "go-echo-db-blog";
+CREATE DATABASE "go-echo-db-user";
+```
+* Create tables:
+```
+cd go-echo-blog/src/db/blog/internal/createtable
+chmod +x run.sh
+./run.sh
+```
+```
+cd go-echo-blog/src/db/user/internal/createtable
+chmod +x run.sh
+./run.sh
+```
+* Start server:
 ```bash
 git clone https://github.com/NavenduDuari/go-echo-blog
 cd go-echo-blog
