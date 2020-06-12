@@ -11,7 +11,12 @@ type UserJWT struct {
 type UserForLogin struct {
 	UserId   string `json:"userid"`
 	Password string `json:"password"`
+	OTP      string `json:"otp"`
 }
+
+// type OtpForLogin struct {
+// 	OTP string `json:"otp"`
+// }
 
 type InputForBlogUpdate struct {
 	Id   string         `json:"id"`

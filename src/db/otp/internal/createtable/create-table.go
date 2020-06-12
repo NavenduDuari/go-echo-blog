@@ -24,14 +24,12 @@ func SetTimeZone(db *sql.DB) error {
 	return nil
 }
 
-func CreatePsqlTableUser(db *sql.DB) (*sql.Rows, error) {
-
-	createTable := "CREATE TABLE IF NOT EXISTS \"" + constant.PostgressTableUser + "\" (" +
+func CreatePsqlTableOtpAuth(db *sql.DB) (*sql.Rows, error) {
+	createTable := "CREATE TABLE IF NOT EXISTS \"" + constant.PostgressTableOtpAuth + "\" (" +
 		`id UUID NOT NULL DEFAULT uuid_generate_v1(),
-		email TEXT UNIQUE,
-		phone TEXT UNIQUE,
-		password TEXT NOT NULL,
-		sns_topic_arn TEXT NOT NULL
+		userid TEXT UNIQUE,
+		otp TEXT UNIQUE,
+		expires_at TEXT NOT NULL
 		);`
 	rows, err := db.Query(createTable)
 	if err != nil {

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/constant"
-	"github.com/NavenduDuari/go-echo-blog/src/db/blog/internal/store"
+	"github.com/NavenduDuari/go-echo-blog/src/db/otp/internal/store"
 )
 
 func main() {
@@ -25,8 +25,8 @@ func main() {
 		log.Fatal("Unable to set time zone on "+constant.PostgressGoBlogDBName, err)
 	}
 
-	_, err = CreatePsqlTableBlog(db)
+	_, err = CreatePsqlTableOtpAuth(db)
 	if err != nil {
-		log.Fatal("Unable to create table: "+constant.PostgressTableBlog, err)
+		log.Fatal("Unable to create table: "+constant.PostgressTableOtpAuth, err)
 	}
 }

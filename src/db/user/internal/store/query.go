@@ -9,10 +9,11 @@ import (
 
 func InsertUser(db *sql.DB, newUser *model.User) error {
 	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableUser+
-		"\" (phone, email, password) VALUES($1, $2, $3)",
+		"\" (phone, email, password, sns_topic_arn) VALUES($1, $2, $3)",
 		newUser.Phone,
 		newUser.Email,
-		newUser.Password)
+		newUser.Password,
+		newUser.SnsTopicArn)
 
 	if err != nil {
 		return err
@@ -31,7 +32,7 @@ func FetchUserByPhone(db *sql.DB, phone string) (model.User, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&user.Id, &user.Email, &user.Phone, &user.Password)
+		err := rows.Scan(&user.Id, &user.Email, &user.Phone, &user.Password, &user.SnsTopicArn)
 		if err != nil {
 			return user, err
 		}
@@ -50,7 +51,7 @@ func FetchUserByEmail(db *sql.DB, email string) (model.User, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&user.Id, &user.Email, &user.Phone, &user.Password)
+		err := rows.Scan(&user.Id, &user.Email, &user.Phone, &user.Password, &user.SnsTopicArn)
 		if err != nil {
 			return user, err
 		}

@@ -17,16 +17,16 @@ func main() {
 
 	err = InstallPsqlUUIDExtension(db)
 	if err != nil {
-		log.Fatal("Unable to install UUID extension on "+constant.PostgressUserDBName, err)
+		log.Fatal("Unable to install UUID extension on "+constant.PostgressGoBlogDBName, err)
 	}
 
 	err = SetTimeZone(db)
 	if err != nil {
-		log.Fatal("Unable to set time zone on "+constant.PostgressUserDBName, err)
+		log.Fatal("Unable to set time zone on "+constant.PostgressGoBlogDBName, err)
 	}
 
 	_, err = CreatePsqlTableUser(db)
 	if err != nil {
-		log.Fatal("Unable to create table: "+constant.PostgressUserDBName, err)
+		log.Fatal("Unable to create table: "+constant.PostgressTableUser, err)
 	}
 }

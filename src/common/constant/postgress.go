@@ -1,6 +1,6 @@
 package constant
 
-var PostgressBlogDBName = "go-echo-db-blog"
-var PostgressUserDBName = "go-echo-db-user"
+var PostgressGoBlogDBName = "go-echo-blog-db"
 var PostgressTableBlog = "go-echo-table-blog"
 var PostgressTableUser = "go-echo-table-user"
+var PostgressTableOtpAuth = "go-echo-table-otp-auth"
