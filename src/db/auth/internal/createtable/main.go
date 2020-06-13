@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/constant"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/internal/store"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/internal/store"
 )
 
 func main() {
@@ -28,5 +28,10 @@ func main() {
 	_, err = CreatePsqlTableOtpAuth(db)
 	if err != nil {
 		log.Fatal("Unable to create table: "+constant.PostgressTableOtpAuth, err)
+	}
+
+	_, err = CreatePsqlTableQrAuth(db)
+	if err != nil {
+		log.Fatal("Unable to create table: "+constant.PostgressTableQrAuth, err)
 	}
 }

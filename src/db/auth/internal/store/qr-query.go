@@ -4,16 +4,16 @@ import (
 	"database/sql"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/constant"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/model"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/model"
 )
 
-//TODO delete otp automatically after certain time
-func InsertOtp(db *sql.DB, newOtp model.OtpAuth) error {
+//TODO delete qr automatically after certain time
+func InsertQr(db *sql.DB, newQr model.QrAuth) error {
 	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableOtpAuth+
 		"\" (userid, otp, expires_at) VALUES($1, $2, $3) ON CONFLICT(userid) DO UPDATE SET otp = $2, expires_at = $3",
-		newOtp.UserId,
-		newOtp.OTP,
-		newOtp.ExpiresAt)
+		newQr.UserId,
+		newQr.QrCode,
+		newQr.ExpiresAt)
 
 	if err != nil {
 		return err
@@ -21,23 +21,23 @@ func InsertOtp(db *sql.DB, newOtp model.OtpAuth) error {
 	return nil
 }
 
-func FetchOtpByUserId(db *sql.DB, userId string) (model.OtpAuth, error) {
-	var otp model.OtpAuth
+func FetchQrByUserId(db *sql.DB, userId string) (model.QrAuth, error) {
+	var qr model.QrAuth
 
-	rows, err := db.Query("Select * from \""+constant.PostgressTableOtpAuth+"\" WHERE userid = $1", userId)
+	rows, err := db.Query("Select * from \""+constant.PostgressTableQrAuth+"\" WHERE userid = $1", userId)
 	if err != nil || rows == nil {
-		return otp, err
+		return qr, err
 	}
 
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&otp.Id, &otp.UserId, &otp.OTP, &otp.ExpiresAt)
+		err := rows.Scan(&qr.Id, &qr.UserId, &qr.QrCode, &qr.ExpiresAt)
 		if err != nil {
-			return otp, err
+			return qr, err
 		}
 	}
-	return otp, nil
+	return qr, nil
 }
 
 // func FetchUserByEmail(db *sql.DB, email string) (model.User, error) {

@@ -1,13 +1,13 @@
-package otp
+package auth
 
 import (
 	"fmt"
 	"log"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/utils"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/internal/otpmanager"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/internal/store"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/model"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/internal/otpmanager"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/internal/store"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/model"
 )
 
 func CreateTopic(topicName string) (string, error) {

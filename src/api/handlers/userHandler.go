@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/NavenduDuari/go-echo-blog/src/common/utils"
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp"
-	otpModel "github.com/NavenduDuari/go-echo-blog/src/db/otp/model"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth"
+	authModel "github.com/NavenduDuari/go-echo-blog/src/db/auth/model"
 	"github.com/NavenduDuari/go-echo-blog/src/db/user"
 	userModel "github.com/NavenduDuari/go-echo-blog/src/db/user/model"
 	"github.com/labstack/echo"
@@ -21,12 +21,12 @@ func SignUp(c echo.Context) error {
 
 	//TODO: handle if user already exists
 	//sns action
-	snsTopicArn, err := otp.CreateTopic(utils.GenerateRandomReadableText(10))
+	snsTopicArn, err := auth.CreateTopic(utils.GenerateRandomReadableText(10))
 	if err != nil {
 		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusForbidden, "SignUp Faild")
 	}
-	if err = otp.SubscribeTopic(otpModel.SubscribeSnsTopicInput{
+	if err = auth.SubscribeTopic(authModel.SubscribeSnsTopicInput{
 		Endpoint: newUser.Email,
 		Protocol: "email",
 		TopicArn: snsTopicArn,

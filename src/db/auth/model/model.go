@@ -8,6 +8,14 @@ type OtpAuth struct {
 	// CreatedAt string `json:"created-at"`
 }
 
+type QrAuth struct {
+	Id        string `json:"id"`
+	UserId    string `json:"userid"`
+	QrCode    string `json:"qr_code"`
+	ExpiresAt string `json:"expires_at"`
+	// CreatedAt string `json:"created-at"`
+}
+
 type SubscribeSnsTopicInput struct {
 	Endpoint string `json:"endpoint"`
 	Protocol string `json:"protocol"`

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/NavenduDuari/go-echo-blog/src/db/otp/model"
+	"github.com/NavenduDuari/go-echo-blog/src/db/auth/model"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sns"

@@ -37,3 +37,17 @@ func CreatePsqlTableOtpAuth(db *sql.DB) (*sql.Rows, error) {
 	}
 	return rows, err
 }
+
+func CreatePsqlTableQrAuth(db *sql.DB) (*sql.Rows, error) {
+	createTable := "CREATE TABLE IF NOT EXISTS \"" + constant.PostgressTableQrAuth + "\" (" +
+		`id UUID NOT NULL DEFAULT uuid_generate_v1(),
+		userid TEXT UNIQUE,
+		qr_code TEXT UNIQUE,
+		expires_at TEXT NOT NULL
+		);`
+	rows, err := db.Query(createTable)
+	if err != nil {
+		return nil, err
+	}
+	return rows, err
+}

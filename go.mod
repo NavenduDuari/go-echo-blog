@@ -8,4 +8,5 @@ require (
 	github.com/labstack/echo v3.3.10+incompatible
 	github.com/labstack/gommon v0.3.0 // indirect
 	github.com/lib/pq v1.6.0
+	github.com/skip2/go-qrcode v0.0.0-20200526175731-7ac0b40b2038
 )

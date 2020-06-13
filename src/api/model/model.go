@@ -12,6 +12,7 @@ type UserForLogin struct {
 	UserId   string `json:"userid"`
 	Password string `json:"password"`
 	OTP      string `json:"otp"`
+	QrCode   string `json:"qr_code"`
 }
 
 // type OtpForLogin struct {
