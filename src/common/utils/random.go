@@ -14,6 +14,11 @@ func generateRandomString(letters []byte, size int) string {
 	return string(result)
 }
 
+func GenerateRandomReadableText(size int) string {
+	var letters = []byte("23456789abdefhjmnprstyABDEFGHIJMNOPQRSTY")
+	return generateRandomString(letters, size)
+}
+
 func GenerateRandomNumericText(size int) string {
 	var letters = []byte("1234567890")
 	return generateRandomString(letters, size)

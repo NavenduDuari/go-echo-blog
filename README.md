@@ -58,6 +58,31 @@ curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/log
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZjOTBjZWM4LWE1MDgtMTFlYS05NDk0LTAyNDJhYzExMDAwMiIsInBob25lIjoiOTg3NjU0MzIxMCIsImVtYWlsIjoibmF2ZW5kdUBtYWlsLmNvbSIsImV4cCI6MTU5MTIxMzY1N30.tlw71Alzi9aga6RBFTNIS2ZMEp2AZev1SMCEfdXY5HM"
 }
 ```
+## User Login with OTP:
+### Send OTP:
+
+* Request:
+```bash
+curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/login-with-otp -d '{"userid":"9062800143"}'
+```
+* Response:
+```bash
+"OTP sent"
+```
+### Verify OTP:
+
+* Request:
+```bash
+curl -H "Content-Type: application/json" -X POST http://localhost:8000/public/login-with-otp -d '{"userid":"9062800143", "otp":"9698"}'
+```
+* Response:
+```json
+{
+  "message": "Login successful!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRiNTE0MmUwLWFkNTYtMTFlYS04MmYwLTAyNDJhYzExMDAwMiIsInBob25lIjoiOTA2MjgwMDE0MyIsImVtYWlsIjoibmR1YXJpMDlAZ21haWwuY29tIiwiZXhwIjoxNTkyMTMwNTM5fQ.1JmBZw98mYSAuUAzVo2-0dSOn5bujuQ8kNlCJbg4nfM"
+}
+```
+
 ## POST Blog:
 
 * Request:

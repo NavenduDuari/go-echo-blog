@@ -49,7 +49,7 @@ func SendOtp(c echo.Context) error {
 	userData, err := user.FetchUserByUserId(userForLogin.UserId)
 	if err != nil {
 		fmt.Println(err)
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Login failed! Unable to send OTP")
 	}
 
 	if err = otp.Publish(otpModel.PublishSnsTopicInput{
@@ -61,10 +61,10 @@ func SendOtp(c echo.Context) error {
 		TopicArn: userData.SnsTopicArn,
 	}); err != nil {
 		fmt.Println(err)
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Login failed! Unable to send OTP")
 	}
 
-	return c.String(http.StatusUnauthorized, "Login failed! Unable to send OTP")
+	return c.String(http.StatusOK, "OTP sent")
 }
 
 func VerifyOtp(c echo.Context) error {
@@ -77,13 +77,13 @@ func VerifyOtp(c echo.Context) error {
 		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
 	}
-	otpAuth, err := otp.FetchOtp(userForLogin.UserId)
+	otpAuth, err := otp.FetchOtp(userData.Id)
 	if err != nil {
 		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Failed Login")
 	}
 
-	if utils.StrToInt64(otpAuth.ExpiresAt) < utils.GetCurrentTimeStampSecond() && userForLogin.OTP == otpAuth.OTP {
+	if utils.StrToInt64(otpAuth.ExpiresAt) > utils.GetCurrentTimeStampSecond() && userForLogin.OTP == otpAuth.OTP {
 		token, err := utils.GetJwtLoginToken(model.UserJWT{
 			Id:    userData.Id,
 			Phone: userData.Phone,
@@ -98,5 +98,5 @@ func VerifyOtp(c echo.Context) error {
 		})
 	}
 
-	return c.String(http.StatusUnauthorized, "Login failed! Unable to send OTP")
+	return c.String(http.StatusUnauthorized, "Login failed! Unable to verify OTP")
 }

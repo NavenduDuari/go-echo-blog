@@ -10,7 +10,7 @@ import (
 //TODO delete otp automatically after certain time
 func InsertOtp(db *sql.DB, newOtp model.OtpAuth) error {
 	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableOtpAuth+
-		"\" (userid, otp, expires_at) VALUES($1, $2, $3)",
+		"\" (userid, otp, expires_at) VALUES($1, $2, $3) ON CONFLICT(userid) DO UPDATE SET otp = $2, expires_at = $3",
 		newOtp.UserId,
 		newOtp.OTP,
 		newOtp.ExpiresAt)

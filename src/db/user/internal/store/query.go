@@ -9,7 +9,7 @@ import (
 
 func InsertUser(db *sql.DB, newUser *model.User) error {
 	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableUser+
-		"\" (phone, email, password, sns_topic_arn) VALUES($1, $2, $3)",
+		"\" (phone, email, password, sns_topic_arn) VALUES($1, $2, $3, $4)",
 		newUser.Phone,
 		newUser.Email,
 		newUser.Password,

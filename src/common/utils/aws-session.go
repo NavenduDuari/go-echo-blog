@@ -10,7 +10,7 @@ import (
 
 func GetSnsSession() *session.Session {
 	return session.New(&aws.Config{
-		Region:      aws.String("us-east-1"),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("YO_AWS_SNS_ACCESS_KEY"), os.Getenv("YO_AWS_SNS_SECRET_KEY"), ""),
+		Region:      aws.String("ap-south-1"),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("GO_ECHO_BLOG_AWS_SNS_ACCESS_KEY"), os.Getenv("GO_ECHO_BLOG_AWS_SNS_SECRET_KEY"), ""),
 	})
 }
