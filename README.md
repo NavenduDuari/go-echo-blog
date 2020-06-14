@@ -1,20 +1,14 @@
 ## RUN:
 * Set Environment Variables
 ```
-export PGSQL_BLOG_USER="postgres"
-export PGSQL_BLOG_PASSWORD="postgres"
-export PGSQL_BLOG_HOST="localhost"
-export PGSQL_BLOG_PORT="5432"
-
-export PGSQL_USER_USER="postgres"
-export PGSQL_USER_PASSWORD="postgres"
-export PGSQL_USER_HOST="localhost"
-export PGSQL_USER_PORT="5432"
+export PGSQL_GO_ECHO_BLOG_USER="postgres"
+export PGSQL_GO_ECHO_BLOG_PASSWORD="postgres"
+export PGSQL_GO_ECHO_BLOG_HOST="localhost"
+export PGSQL_GO_ECHO_BLOG_PORT="5432"
 ```
 * Create DB using psql command:
 ```
-CREATE DATABASE "go-echo-db-blog";
-CREATE DATABASE "go-echo-db-user";
+CREATE DATABASE "go-echo-blog-db";
 ```
 * Create tables:
 ```
@@ -24,6 +18,11 @@ chmod +x run.sh
 ```
 ```
 cd go-echo-blog/src/db/user/internal/createtable
+chmod +x run.sh
+./run.sh
+```
+```
+cd go-echo-blog/src/db/auth/internal/createtable
 chmod +x run.sh
 ./run.sh
 ```
@@ -63,7 +62,7 @@ curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/log
 
 * Request:
 ```bash
-curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/login-with-otp -d '{"userid":"9062800143"}'
+curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/login-with-otp -d '{"userid":"9876543210"}'
 ```
 * Response:
 ```bash
@@ -73,13 +72,40 @@ curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/log
 
 * Request:
 ```bash
-curl -H "Content-Type: application/json" -X POST http://localhost:8000/public/login-with-otp -d '{"userid":"9062800143", "otp":"9698"}'
+curl -H "Content-Type: application/json" -X POST http://localhost:8000/public/login-with-otp -d '{"userid":"9876543210", "otp":"9698"}'
 ```
 * Response:
 ```json
 {
   "message": "Login successful!",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRiNTE0MmUwLWFkNTYtMTFlYS04MmYwLTAyNDJhYzExMDAwMiIsInBob25lIjoiOTA2MjgwMDE0MyIsImVtYWlsIjoibmR1YXJpMDlAZ21haWwuY29tIiwiZXhwIjoxNTkyMTMwNTM5fQ.1JmBZw98mYSAuUAzVo2-0dSOn5bujuQ8kNlCJbg4nfM"
+}
+```
+## User Login with QR code:
+### Get QR code(base64):
+
+* Request:
+```bash
+curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/login-with-qr -d '{"userid":"9876543210"}'
+```
+* Response:
+```json
+{
+  "message": "Got QR",
+  "qrBAse64": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAABEElEQVR42uzYMZKEIBAF0KYMCD0CR+Fo7NE4ikcgJLD8W9CDO6Kj4W4t/0cz1Iu6oGkUhmGYv54ZmigOedrM628m6IH+DFFE7CoG76tDAQtAQvRICgKQCG6BlB1F8ASWGSC4Aa+z6Ze59qiPh3d00Jp5Ax+7/eBgj1/EYruZE/430KPX3f6J4ATE5gkQ8VhEplLKEN17jyJoAKvRSia7mk3w5Y+lJGiZ6mp0unrecwTazHOdMnUyN7r7DuMBQdftkSxQiiquK/UIoHvSKiW4AD/zpNRKnrYcQf+UQy63Xm1RBA+gFDJcDVoEhzevNnNxBFdg/y7XfvaVHAPsT9r62a3m+tYbHDAMw/xOvgMAAP//e82zVMbJSJIAAAAASUVORK5CYII="
+}
+```
+### Verify Qr code:
+
+* Request:
+```bash
+curl -H "Content-Type: application/json" -X POST http://localhost:8000/public/login-with-qr -d '{"userid":"9876543210", "qr_code":"YaQTGyF54S"}'
+```
+* Response:
+```json
+{
+  "message": "Login successful!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzZTc4OWNhLWFlMDktMTFlYS05YTQ4LTAyNDJhYzExMDAwMiIsInBob25lIjoiOTg3NjU0MzIxMCIsImVtYWlsIjoibmF2ZW5kdUBtYWlsLmNvbSIsImV4cCI6MTU5MjIwNTM5Mn0.L6seLVFvc3xSNCJeXkjethaOwu5rPpwYwJEMFatqhWc"
 }
 ```
 
@@ -240,3 +266,5 @@ curl -H "Content-Type: application/json" -X GET http://localhost:8000/public/blo
 * Remove redundant code
 * return consistent HTTP status code
 * Cleanup
+* Edit README
+* Handle if record not found in db

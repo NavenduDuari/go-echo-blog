@@ -114,7 +114,7 @@ func GetQr(c echo.Context) error {
 
 	qrBase64, err := auth.GenerateQr(authModel.QrAuth{
 		UserId:    userData.Id,
-		QrCode:    utils.GenerateRandomNumericText(10),
+		QrCode:    utils.GenerateRandomReadableText(10),
 		ExpiresAt: utils.Int64ToStr(utils.GetCurrentTimeStampSecond() + 5*60),
 	})
 	if err != nil {
@@ -133,6 +133,7 @@ func VerifyQr(c echo.Context) error {
 	if err := c.Bind(userForLogin); err != nil {
 		return err
 	}
+
 	userData, err := user.FetchUserByUserId(userForLogin.UserId)
 	if err != nil {
 		fmt.Println(err)

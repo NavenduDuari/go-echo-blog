@@ -9,8 +9,8 @@ import (
 
 //TODO delete qr automatically after certain time
 func InsertQr(db *sql.DB, newQr model.QrAuth) error {
-	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableOtpAuth+
-		"\" (userid, otp, expires_at) VALUES($1, $2, $3) ON CONFLICT(userid) DO UPDATE SET otp = $2, expires_at = $3",
+	_, err := db.Exec("INSERT INTO \""+constant.PostgressTableQrAuth+
+		"\" (userid, qr_code, expires_at) VALUES($1, $2, $3) ON CONFLICT(userid) DO UPDATE SET qr_code = $2, expires_at = $3",
 		newQr.UserId,
 		newQr.QrCode,
 		newQr.ExpiresAt)
